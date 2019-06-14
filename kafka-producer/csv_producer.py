@@ -72,7 +72,7 @@ def main():
             # Push prices to Kafka
             pusher.send(topic='price',
                         value={'price': price, 'timestamp': t},
-                        key={'asset'})
+                        key={asset})    
 
         # Print the time so we can tell the program is alive
         print(t)
