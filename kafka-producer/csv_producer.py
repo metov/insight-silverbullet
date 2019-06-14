@@ -12,7 +12,7 @@ import os
 # Folder containing test price data
 data_dir = 'test-tiny'
 
-def open_file_handles(dir) -> dict:
+
     """
     Opens file handles to price data inside the given folder.
 
@@ -33,7 +33,7 @@ def open_file_handles(dir) -> dict:
     return handles
 
 
-def loop_file(file_handle) -> str:
+def loop_file(file_handle):
     """
     Reads one line from the given file. If we are at the end of the file, returns to the beginning. Call repeatedly to
     create an infinite loop from the file.
