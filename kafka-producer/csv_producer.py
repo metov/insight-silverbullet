@@ -74,6 +74,11 @@ def main():
                         value={'price': price, 'timestamp': t},
                         key={'asset'})
 
+        # Print the time so we can tell the program is alive
+        print(t)
+
+        pusher.flush()
+
         # Wait 1 second to simulate ~1 hz price resolution
         time.sleep(1)
 
