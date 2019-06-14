@@ -16,3 +16,5 @@ I will use state of the art, blazing fast stream processing framework Flink to t
 * Set up Flink as described in [flink-setup](setup/flink/flink-setup.md)
 	* Flink is a distributed stream processor. Flink will do the actual computations.
 
+### Sending messages to Kafka
+In order to write to Kafka, you need a Kafka producer. There is a "console producer" that lets you manually push messages by typing to console. To write programmatically, you need to write a [Kafka producer program](kafka-producer/kafka-producer.md).
