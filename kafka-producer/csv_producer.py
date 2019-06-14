@@ -8,27 +8,27 @@ from json import dumps
 import time
 import os
 
-
 # Folder containing test price data
 data_dir = 'test-tiny'
 
 
+def open_file_handles(folder):
     """
     Opens file handles to price data inside the given folder.
 
     Each file is expected to be a text file with one price per line, and no blank lines.
 
-    :param dir: Folder with data files
+    :param folder: Folder with data files
     :return: Map from asset name (filename) to file handle
     """
 
-    all_files = os.listdir(dir)
+    all_files = os.listdir(folder)
 
     handles = {}
     for f in all_files:
         # Infer asset name from extension
         name = os.path.splitext(f)[0]
-        handles[name] = open(os.path.join(dir, f))
+        handles[name] = open(os.path.join(folder, f))
 
     return handles
 
