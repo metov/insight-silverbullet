@@ -1,3 +1,4 @@
+# Kafka producer
 ## Getting the files on Kafka cluster
 Pegasus can send files with SCP: 
 * Mock producer: `peg scp to-rem kafka-cluster 1 csv_producer.py csv_producer.py`
@@ -18,6 +19,13 @@ Then run the following command:
 ```
 
 Note the Kafka path, replication factor, partition number and topic name. You can see the existing topics with: `/usr/local/kafka/bin/kafka-topics.sh --list --zookeeper localhost:2181`
+
+### Manual testing
+To write Kafka messages from the console: `/usr/local/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test`
+
+To read messages: `/usr/local/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning`
+
+To list topics: `/usr/local/kafka/bin/kafka-topics.sh --list --zookeeper localhost:2181`
 
 ## Running the producer
 You will probably need to install the library on the node you're SSHing into: `pip install kafka`
