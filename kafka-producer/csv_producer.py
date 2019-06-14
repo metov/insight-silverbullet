@@ -48,6 +48,7 @@ def loop_file(file_handle):
 
     # We assume empty line means end of file. TODO: Implement better EOF detection.
     if line == '':
+        print('End of file, looping over...')
         file_handle.seek(0)
         line = file_handle.readline()
 
