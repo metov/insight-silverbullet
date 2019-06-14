@@ -17,7 +17,7 @@ Then run the following command:
 	--topic price
 ```
 
-Note the Kafka path, replication factor, partition number and topic name.
+Note the Kafka path, replication factor, partition number and topic name. You can see the existing topics with: `/usr/local/kafka/bin/kafka-topics.sh --list --zookeeper localhost:2181`
 
 ## Running the producer
 You will probably need to install the library on the node you're SSHing into: `pip install kafka`
