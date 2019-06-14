@@ -1,4 +1,9 @@
-
+# These are actual YAML files with information corresponding to specific EC2 nodes, they won't be useful to anyone without access to that account
 setup/kafka/kafka-cluster\.yml
-
 setup/kafka/kafka-from-qikai\.yml
+
+# PyCharm stuff 
+.idea
+
+# Historic data doesn't need to be committed
+data/
