@@ -59,7 +59,8 @@ def main():
 
     # Create kafka producer (this will run on the same machine as Kafka)
     pusher = KafkaProducer(bootstrap_servers='localhost',
-                           value_serializer=lambda x: dumps(x).encode('utf-8'))
+                           value_serializer=lambda x: dumps(x).encode('utf-8'),
+                           key_serializer=lambda x: dumps(x).encode('utf-8'))
 
     while True:
         # Read 1 price for each asset
