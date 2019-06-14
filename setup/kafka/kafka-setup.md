@@ -12,6 +12,8 @@ To install Kafka:
 			* You can also assign the security group after manually.
 * Fetch with `peg fetch kafka-cluster` (`peg install` won't run without it)
 * Install `bc` (zookeeper won't install properly without it): `peg sshcmd-cluster kafka-cluster "sudo apt install -y bc"`
-* Install Kafka: ` peg install kafka-cluster kafka`
+* Install Kafka: `peg install kafka-cluster kafka`
+* Start Zookeeper: `peg service kafka-cluster zookeeper start` (must start before kafka)
+* Start Kafka: `peg service kafka-cluster kafka start` (if console gets stuck, Ctrl+C is safe)
 
 This will create 3 nodes running Kafka with Zookeeper. In production, it would be better to have dedicated nodes for Zookeeper, but in this case the same nodes run both.
