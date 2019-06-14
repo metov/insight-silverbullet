@@ -13,3 +13,5 @@ I will use state of the art, blazing fast stream processing framework Flink to t
 
 * Set up Kafka as described in [setup/kafka/kafka-setup.md]
 	* Kafka is a distributed, fault tolerant message queue. Kafka will read the price data into a message queue and make it available to Flink.
+* Set up Flink as described in [setup/flink/flink-setup.md]
+	* Flink is a distributed stream processor. Flink will do the actual computations.
