@@ -22,5 +22,5 @@ Note the Kafka path, replication factor, partition number and topic name.
 ## Running the producer
 You will probably need to install the library on the node you're SSHing into: `pip install kafka`
 
-You can run the producer with `python csv_producer.py`. Stop with Ctrl+C. To see messages run `/usr/local/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning`.
+You can run the producer with `python csv_producer.py`. Stop with Ctrl+C. To see messages run `/usr/local/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic price --from-beginning`.
 
