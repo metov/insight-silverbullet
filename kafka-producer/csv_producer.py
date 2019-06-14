@@ -66,7 +66,7 @@ def main():
         prices = dict(map(lambda asset: (asset, float(loop_file(price_data[asset]))), price_data))
         t = time.time()
 
-        for (asset, price) in prices:
+        for asset, price in prices.items():
             # Push prices to Kafka
             pusher.send(topic='price',
                         value={'price': price, 'timestamp': t},
