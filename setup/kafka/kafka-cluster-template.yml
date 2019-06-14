@@ -1,0 +1,11 @@
+purchase_type: spot
+subnet_id: SUBNET_HERE
+price: 0.1
+num_instances: 3
+key_name: NAME_OF_SSH_KEY_HERE
+security_group_ids: SECURITY_GROUP_HERE
+instance_type: m4.large
+tag_name: kafka-cluster
+vol_size: 100
+role: worker
+use_eips: true
