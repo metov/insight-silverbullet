@@ -3,8 +3,8 @@ setup/kafka/kafka-cluster\.yml
 setup/kafka/kafka-from-qikai\.yml
 
 # PyCharm stuff 
-**.idea/
+**.idea/**
+kafka-producer/\.idea/
 
 # Historic data doesn't need to be committed
 data/
-
