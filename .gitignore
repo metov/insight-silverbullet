@@ -8,3 +8,7 @@ kafka-producer/\.idea/
 
 # Historic data doesn't need to be committed
 data/
+
+setup/flink/flink-manager\.yml
+
+setup/flink/flink-workers\.yml
