@@ -42,10 +42,15 @@ To list topics: `/usr/local/kafka/bin/kafka-topics.sh --list --zookeeper localho
 #### Write messages from console
 Interactive console producer: `/usr/local/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test`
 
-Just write as a single command: `echo "my test message" | /usr/local/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic price`
+Just write as a single command: `echo "my test message" | /usr/local/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test`
 
 #### Read messages from console
 To read messages: `/usr/local/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning`
+
+#### Delete topics
+To delete topic: `/usr/local/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic price`
+
+You will get a warning about `delete.topic.enable` needing to be set. This is fine, it seems to be set by the pegasus install script (if in doubt, check by listing topics after deleting).
 
 ## Running the producer
 You will probably need to install the library on the node you're SSHing into: `pip install kafka`
