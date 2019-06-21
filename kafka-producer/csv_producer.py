@@ -9,7 +9,7 @@ from json import dumps
 from kafka import KafkaProducer
 
 # Folder containing test price data
-data_dir = 'test-tiny-whole'
+data_dir = 'test-tiny'
 topic = 'price'
 
 
