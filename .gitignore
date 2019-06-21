@@ -12,3 +12,9 @@ data/
 setup/flink/flink-manager\.yml
 
 setup/flink/flink-workers\.yml
+
+setup/spark/spark-master\.yml
+
+setup/spark/spark-workers\.yml
+
+setup/redis/redis\.yml
