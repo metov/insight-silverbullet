@@ -1,6 +1,6 @@
-purchase_type: spot
+purchase_type: on_demand
 subnet_id: SUBNET_HERE
-price: 0.1
+price: 
 num_instances: 3
 key_name: NAME_OF_SSH_KEY_HERE
 security_group_ids: SECURITY_GROUP_HERE
