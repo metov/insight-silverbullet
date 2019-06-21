@@ -1,5 +1,4 @@
-To install Spark:
-
+# Spark setup
 * Set up [Pegasus](https://github.com/InsightDataScience/pegasus)
 * Create master node: `peg up spark-master.yml`
 	* You can create this from `spark-master-template.yml`, but you will need to fill in:
@@ -52,3 +51,4 @@ You have to start the services in the correct order:
 * Start cluster: `peg start spark-cluster`
 * Start Hadoop: `peg service spark-cluster hadoop start`
 * Start Spark: `peg service spark-cluster spark start`
+
