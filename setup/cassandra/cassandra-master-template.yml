@@ -1,11 +1,11 @@
 purchase_type: on_demand
 subnet_id: SUBNET_HERE
-price: 
+price:
 num_instances: 1
 key_name: NAME_OF_SSH_KEY_HERE
 security_group_ids: SECURITY_GROUP_HERE
 instance_type: m4.large
-tag_name: flink-cluster
-vol_size: 10
+tag_name: cassandra-cluster
+vol_size: 100
 role: master
 use_eips: true
