@@ -1,3 +1,7 @@
+"""
+Classes used for digesting assets (calculating risk/reward over a moving window).
+"""
+
 class PriceData:
     """
     Stores entire dataset of all asset prices.

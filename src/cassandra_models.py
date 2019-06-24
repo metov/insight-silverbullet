@@ -1,3 +1,7 @@
+"""
+Models for accessing data on Cassandra. Required for all Cassandra-related scripts.
+"""
+
 from cassandra.cqlengine import columns
 from cassandra.cqlengine.models import Model
 

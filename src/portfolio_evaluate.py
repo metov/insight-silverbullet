@@ -1,10 +1,12 @@
-import numpy as np
-import time
-import uuid
-from pprint import pprint
-from cassandra.cqlengine import connection
-from cassandra.cqlengine.management import create_keyspace_simple, sync_table, drop_table
+"""
+Evaluates random Monte Carlo portfolios. Run on Spark node.
+"""
 
+import time
+
+import numpy as np
+from cassandra.cqlengine import connection
+from cassandra.cqlengine.management import sync_table, drop_table
 from cassandra_models import AssetStat, PortfolioStat
 
 n_portfolios = 10

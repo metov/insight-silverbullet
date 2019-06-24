@@ -1,5 +1,7 @@
 """
 Simulates a live exchange by publishing data from a file on disk.
+
+Run on Kafka node.
 """
 import json
 import os
