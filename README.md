@@ -12,9 +12,11 @@ I will use state of the art, blazing fast stream processing framework Flink to t
 ## Setup
 
 * Set up Kafka as described in [kafka-setup](setup/kafka/kafka-setup.md)
-	* Kafka is a distributed, fault tolerant message queue. Kafka will read the price data into a message queue and make it available to Flink.
-* Set up Flink as described in [flink-setup](setup/flink/flink-setup.md)
-	* Flink is a distributed stream processor. Flink will do the actual computations.
+	* Kafka is a distributed, fault tolerant message queue. Kafka will ingest the price data into a message queue and make it available to other programs.
+* Set up Spark as described in [spark-setup](setup/spark/spark-setup.md)
+	* Apache Spark is a distributed processing framework. Spark will do the distributed computations.
+* Set up Cassandra as described in [cassandra-setup](setup/cassandra/cassandra-setup.md)
+	* Cassandra is a distributed database. It will store computation results.
 
 ### Sending messages to Kafka
 In order to write to Kafka, you need a Kafka producer. There is a "console producer" that lets you manually push messages by typing to console. To write programmatically, you need to write a [Kafka producer program](kafka-producer/kafka-producer.md).
