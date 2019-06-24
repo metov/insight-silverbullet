@@ -3,24 +3,17 @@ Calculates per-asset summary statistics and writes them to database. Run on Kafk
 """
 import json
 
-from cassandra.cqlengine import columns
 from cassandra.cqlengine import connection
 from cassandra.cqlengine.management import sync_table, create_keyspace_simple
-from cassandra.cqlengine.models import Model
 from kafka import KafkaConsumer
 
 from PriceQueue import PriceData
 
 # Folder containing test price data
+from cassandra_models import AssetStat
+
 data_dir = 'test-tiny'
 topic = 'price'
-
-
-class AssetStat(Model):
-    asset = columns.Text(primary_key=True)
-    time_collected = columns.Float()
-    reward = columns.Float()
-    risk = columns.Float()
 
 
 def main():
