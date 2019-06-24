@@ -1,7 +1,7 @@
 """
 Simulates a live exchange by publishing data from a file on disk.
 """
-
+import json
 import os
 import time
 
@@ -18,16 +18,16 @@ def main():
 
     # Create kafka producer (this will run on the same machine as Kafka)
     pusher = KafkaProducer(bootstrap_servers='localhost',
-                           value_serializer=lambda x: dumps(x).encode('utf-8'),
-                           key_serializer=lambda x: dumps(x).encode('utf-8'))
+                           value_serializer=lambda x: dumps(x).encode('utf-8'))
 
     while True:
         # Read 1 price for each asset
-        prices = dict(map(lambda asset: (asset, float(loop_file(price_data[asset]))), price_data))
+        datum = read_prices(price_data)
         t = time.time()
 
-        # Temporarily writing with console instead of API because the latter doesn't work.
-        write_prices_to_kafka_with_api(prices, pusher, t)
+        # Send prices to Kafka
+        pusher.send(topic=topic, value=datum)
+        pusher.flush()
 
         # Print the time so we can tell the program is alive
         print(t)
@@ -35,27 +35,17 @@ def main():
         # Wait 1 seconds to simulate ~1 hz price resolution
         time.sleep(1)
 
-    return
 
+def read_prices(price_data):
+    datum = {
+        'prices': {},
+        'timestamp': (time.time())
+    }
 
-def write_prices_to_kafka_with_api(prices, pusher, t):
-    """
-    Publishes the given prices to Kafka, using the API, and adds the given timestamp.
+    for asset, f in price_data.items():
+        datum['prices'][asset] = loop_file(f)
 
-    The timestamp is provided separately so that it can be added to the message content. Kafka does also timestamp
-    messages by itself. However, those are UNIX timestamps (seconds) and don't have enough resolution for our purposes.
-
-    :param prices: Prices, in the form of a dict(asset_name, price)
-    :param pusher: Kafka pusher object initialized with the correct serializers (JSON recommended)
-    :param t: Timestamp (will be written into the message, Kafka also maintains its own timestamp)
-    :return:
-    """
-
-    for asset, price in prices.items():
-        # Push prices to Kafka TODO: This method can also set a key, but setting it seems to make messages not show up in Kafka.
-        pusher.send(topic=topic, value={'asset': asset, 'price': price, 'timestamp': t})
-
-    pusher.flush()
+    return datum
 
 
 def open_file_handles(folder):

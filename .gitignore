@@ -1,26 +1,18 @@
 # These are actual YAML files with information corresponding to specific EC2 nodes, they won't be useful to anyone without access to that account
 setup/kafka/kafka-cluster\.yml
 setup/kafka/kafka-from-qikai\.yml
+setup/spark/spark-master\.yml
+setup/spark/spark-workers\.yml
+setup/redis/redis\.yml
+setup/cassandra/cassandra-master\.yml
+setup/cassandra/cassandra-workers\.yml
+theory/data_flow_redis\.png
 
 # PyCharm stuff 
 .idea/
 __pycache__/
+venv/
+*.pyc
 
 # Historic data doesn't need to be committed
 data/
-
-setup/flink/flink-manager\.yml
-
-setup/flink/flink-workers\.yml
-
-setup/spark/spark-master\.yml
-
-setup/spark/spark-workers\.yml
-
-setup/redis/redis\.yml
-
-setup/cassandra/cassandra-master\.yml
-
-setup/cassandra/cassandra-workers\.yml
-
-theory/data_flow_redis\.png
