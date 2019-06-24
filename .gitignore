@@ -16,3 +16,5 @@ venv/
 
 # Historic data doesn't need to be committed
 data/
+
+src/web_ui_redis\.py
