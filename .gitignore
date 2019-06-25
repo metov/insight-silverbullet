@@ -1,11 +1,3 @@
-# These are actual YAML files with information corresponding to specific EC2 nodes, they won't be useful to anyone without access to that account
-setup/kafka/kafka-cluster\.yml
-setup/kafka/kafka-from-qikai\.yml
-setup/spark/spark-master\.yml
-setup/spark/spark-workers\.yml
-setup/redis/redis\.yml
-setup/cassandra/cassandra-master\.yml
-setup/cassandra/cassandra-workers\.yml
 theory/data_flow_redis\.png
 
 # PyCharm stuff 
@@ -18,3 +10,14 @@ venv/
 data/
 
 src/web_ui_redis\.py
+
+# Machine-specific configuration info
+src/conf/cassandra\.json
+src/conf/kafka\.json
+setup/kafka/kafka-cluster\.yml
+setup/kafka/kafka-from-qikai\.yml
+setup/spark/spark-master\.yml
+setup/spark/spark-workers\.yml
+setup/redis/redis\.yml
+setup/cassandra/cassandra-master\.yml
+setup/cassandra/cassandra-workers\.yml
