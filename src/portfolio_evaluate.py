@@ -5,9 +5,9 @@ Evaluates random Monte Carlo portfolios. Run on Spark node.
 import time
 
 import numpy as np
-from cassandra.cqlengine import connection
 from cassandra.cqlengine.management import sync_table, drop_table
 from cassandra_models import AssetStat, PortfolioStat
+from cassandra_utilities import connect_to_cassandra, silverbullet_keyspace
 
 n_portfolios = 10
 
@@ -18,16 +18,13 @@ def main():
 
     :return:
     """
-
-    # Connect to cassandra
-    keyspace = 'silverbullet'
-    connection.setup(['10.0.0.5'], keyspace)
+    connect_to_cassandra()
 
     # Drop old table
-    drop_table(PortfolioStat, keyspaces=[keyspace])
+    drop_table(PortfolioStat, keyspaces=[silverbullet_keyspace])
 
     # Create table for portfolio stats
-    sync_table(PortfolioStat, keyspaces=[keyspace])
+    sync_table(PortfolioStat, keyspaces=[silverbullet_keyspace])
 
     # Start looping
     while True:
