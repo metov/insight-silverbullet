@@ -1,6 +1,6 @@
 {
   "kafka_topic": "price",
-  "kafka_ip": "localhost",
+  "kafka_ip": "IP_ADDRESS_HERE",
   "data_dir": "test-tiny",
   "window_size": 60
 }
