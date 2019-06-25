@@ -1,6 +1,7 @@
 """
 Calculates per-asset summary statistics and writes them to database. Run on Kafka server.
 """
+import time
 
 from cassandra.cqlengine.management import sync_table
 from kafka import KafkaConsumer
@@ -42,6 +43,9 @@ def main():
                 reward=pq.reward,
                 risk=pq.risk,
                 time_collected=pq.price_data[-1].timestamp)
+
+        # Print the time so user can tell the program is alive
+        print(time.time())
 
 
 if __name__ == '__main__':
