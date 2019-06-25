@@ -50,7 +50,7 @@ def main():
             for j in range(len(assets)):
                 asset = assets[j]
                 reward += asset.reward * p[j]
-                risk += asset.reward * p[j]
+                risk += asset.risk * p[j]
 
             portfolio_stat.append({'reward': reward, 'risk': risk})
 
