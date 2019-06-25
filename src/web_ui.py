@@ -1,14 +1,9 @@
-import json
-import os
-
 from cassandra.cqlengine import connection
 from flask import Flask, jsonify, render_template
 from cassandra_models import *
+from cassandra_utilities import connect_to_cassandra, cassandra_configs
 
 app = Flask(__name__)
-
-keyspace = 'silverbullet'
-cassandra_configs = json.load(open('./conf/cassandra.json'))
 
 
 @app.route('/')
@@ -24,8 +19,7 @@ def show_splash():
 
 @app.route('/api/asset_stat')
 def asset_stats():
-    # Connect to Cassandra
-    connection.setup(cassandra_configs['ips'], cassandra_configs['keyspace'])
+    connect_to_cassandra()
 
     # Get data from Cassandra as serializable dictionaries
     asset_stat = list(map(dict, AssetStat.objects.all()))
