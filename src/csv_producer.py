@@ -10,16 +10,15 @@ import time
 from json import dumps
 from kafka import KafkaProducer
 
-# Folder containing test price data
-data_dir = 'test-tiny'
-topic = 'price'
+# Load configs
+configs = json.load(open('./conf/kafka.json'))
 
 
 def main():
-    price_data = open_file_handles(data_dir)
+    price_data = open_file_handles(configs['data_dir'])
 
-    # Create kafka producer (this will run on the same machine as Kafka)
-    pusher = KafkaProducer(bootstrap_servers='localhost',
+    # Create Kafka producer (this will run on the same machine as Kafka)
+    pusher = KafkaProducer(bootstrap_servers=configs['kafka_ip'],
                            value_serializer=lambda x: dumps(x).encode('utf-8'))
 
     while True:
@@ -28,7 +27,7 @@ def main():
         t = time.time()
 
         # Send prices to Kafka
-        pusher.send(topic=topic, value=datum)
+        pusher.send(topic=configs['kafka_topic'], value=datum)
         pusher.flush()
 
         # Print the time so we can tell the program is alive
