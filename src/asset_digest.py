@@ -1,35 +1,29 @@
 """
 Calculates per-asset summary statistics and writes them to database. Run on Kafka server.
 """
-import json
 
-from cassandra.cqlengine import connection
-from cassandra.cqlengine.management import sync_table, create_keyspace_simple
+from cassandra.cqlengine.management import sync_table
 from kafka import KafkaConsumer
-
 from PriceQueue import PriceData
-
-# Folder containing test price data
 from cassandra_models import AssetStat
+from cassandra_utilities import *
 
-data_dir = 'test-tiny'
-topic = 'price'
+# Load configs
+configs = json.load(open('./conf/kafka.json'))
 
 
 def main():
-    # Connect to cassandra
-    keyspace = 'silverbullet'
-    connection.setup(['10.0.0.5'], keyspace)
-    create_keyspace_simple(keyspace, 3)
+    connect_to_cassandra()
+    initialize_keyspace(silverbullet_keyspace)
 
     # Make sure the table exists
-    sync_table(AssetStat, keyspaces=[keyspace])
+    sync_table(AssetStat, keyspaces=[silverbullet_keyspace])
 
     # To consume latest messages and auto-commit offsets
-    consumer = KafkaConsumer('price', bootstrap_servers='localhost')
+    consumer = KafkaConsumer(configs['kafka_topic'], bootstrap_servers=configs['kafka_ip'])
 
-    # Define a window over a certain prices from Kafka
-    pd = PriceData(60)
+    # Define a window over certain prices from Kafka
+    pd = PriceData(configs['window_size'])
 
     # Process Kafka messages
     for msg in consumer:
