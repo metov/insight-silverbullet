@@ -41,7 +41,7 @@ def main():
             pq = pd.data[asset]
             t = time.time()
             dt = t - pq.price_data[-1].timestamp
-            AssetStat(asset=asset).timeout(1).update(reward=pq.reward, risk=pq.risk, timestamp=t, latency=dt)
+            AssetStat(asset=asset).timeout(1).update(reward=pq.reward, risk=pq.risk, time_evaluated=t, latency=dt)
 
         # Print the time so user can tell the program is alive
         print(time.time())

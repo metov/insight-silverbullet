@@ -19,5 +19,6 @@ class PortfolioStat(Model):
     reward = columns.Float()
     risk = columns.Float()
     time_evaluated = columns.Float()
+    latency = columns.Float()
     weights = columns.List(columns.Float())
     weight_labels = columns.List(columns.Text())

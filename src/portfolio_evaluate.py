@@ -42,18 +42,21 @@ def main():
         for i, p in enumerate(portfolio_weights):
             reward = 0
             risk = 0
-            labeled_weights = []
+            last_asset = 0
 
             for j in range(len(assets)):
                 asset = assets[j]
                 reward += asset.reward * p[j]
                 risk += asset.risk * p[j]
+                last_asset = max(last_asset, asset.time_evaluated)
 
             portfolio_stat.append({'reward': reward, 'risk': risk})
 
             # Save to Cassandra
-            PortfolioStat.create(id=i, reward=reward, risk=risk, time_evaluated=time.time(),
-                                 weights=p, weight_labels=asset_names)
+            t = time.time()
+            dt = t - last_asset
+            PortfolioStat.create(id=i, reward=reward, risk=risk, time_evaluated=t,
+                                 weights=p, weight_labels=asset_names, latency=dt)
 
         # Print some output so the user can tell the program is alive
         print(time.time())
