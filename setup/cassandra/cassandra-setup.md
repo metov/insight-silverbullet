@@ -26,6 +26,9 @@
 
 This will create one node running Cassandra as a master, and two worker nodes. You can get a description with `peg describe cassandra-cluster`.
 
+## Manual administration
+You can use `cqlsh` on the node to administer.
+
 ## Stopping when not in use
 When you're not using the cluster, you can stop it temporarily to avoid being billed.
 
