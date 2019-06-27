@@ -17,3 +17,4 @@ setup/spark/spark-workers\.yml
 setup/redis/redis\.yml
 setup/cassandra/cassandra-master\.yml
 setup/cassandra/cassandra-workers\.yml
+setup/webui/webui\.yml
