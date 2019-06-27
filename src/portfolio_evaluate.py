@@ -38,7 +38,6 @@ def main():
 
         # Evaluate portfolios
         portfolio_stat = []
-        time_started = time.time()
         for i, p in enumerate(portfolio_weights):
             reward = 0
             risk = 0
