@@ -2,22 +2,38 @@
 Classes used for digesting assets (calculating risk/reward over a moving window).
 """
 
+
 class PriceData:
     """
     Stores entire dataset of all asset prices.
     """
 
     def __init__(self, n):
+        """
+        Initialize a new dataset for a window of given length.
+
+        :param n: Number of periods to consider (window size).
+        """
         self.data = {}
         self.n = n
 
     def push_price(self, asset, price, timestamp):
+        """
+        Adds a price to the time series, and may pop the oldest one if over limit.
+
+        :param asset: Name of asset.
+        :param price: Price of last tick.
+        :param timestamp: Time the tick happened, in fractional seconds since UNIX epoch. (Use time.time())
+        """
         if asset not in self.data:
             self.data[asset] = PriceQueue(self.n, price, timestamp)
         else:
-            self.data[asset].push_price(price, timestamp)
+            self.data[asset].process_tick(price, timestamp)
 
     def print_summary_table(self):
+        """
+        Debug method, prints a summary table of data to console.
+        """
         for asset, pq in self.data.items():
             s = '\t{}: {} / {} ({})'.format(asset, pq.reward, pq.risk, len(pq.price_data))
             print(s)
@@ -29,6 +45,14 @@ class PriceQueue:
     """
 
     def __init__(self, n, price, timestamp):
+        """
+        Initializes the Queue with a given window size.
+
+        :param n: Maximum number of periods (window size).
+        :param price: Price of tick.
+        :param timestamp: Time of tick in fractional seconds since UNIX epoch. (use time.time())
+        """
+
         self.max_length = n
 
         pd = PriceDatum(price, timestamp)
@@ -37,7 +61,13 @@ class PriceQueue:
         self.reward = 0
         self.risk = 0
 
-    def push_price(self, price, timestamp):
+    def process_tick(self, price, timestamp):
+        """
+        Processes a price tick, updating risk/reward as necessary.
+
+        :param price: Price of last tick.
+        :param timestamp: Time the tick happened, in fractional seconds since UNIX epoch. (Use time.time())
+        """
         if len(self.price_data) == self.max_length:
             self.pop_oldest_price()
 
@@ -46,6 +76,12 @@ class PriceQueue:
         self.push_new_price(pd)
 
     def push_new_price(self, incoming):
+        """
+        Adds a new price and updates moving risk/reward using O(1) algorithm.
+
+        :param incoming: PriceDatum object representing the new price being added.
+        """
+
         # Update reward
         x = incoming.normalized_change
         n = len(self.price_data)
@@ -64,6 +100,10 @@ class PriceQueue:
         self.price_data.append(incoming)
 
     def pop_oldest_price(self):
+        """
+        Pops the oldest price and updates moving risk/reward using O(1) algorithm.
+        """
+
         # Learn the price we are about to remove
         outgoing = self.price_data[0]
 
@@ -102,6 +142,13 @@ class PriceDatum:
     """
 
     def __init__(self, price, timestamp):
+        """
+        Initializes new instance representing a single tick.
+
+        :param price:
+        :param timestamp:
+        """
+
         self.price = price
         self.timestamp = timestamp
 
@@ -112,6 +159,8 @@ class PriceDatum:
     def update_relative(self, basis):
         """
         Calculates relative statistics using the provided datum as a basis.
+
+        :param basis: The "previous tick", a PriceDatum instance, used to calculate % change.
         """
 
         dp = self.price / basis.price - 1
@@ -175,12 +224,12 @@ def incremental_var(mu_i, n, v_i, x):
     delta = mu_f - mu_i
     e_i = v_i * n
 
-    e_x = (x - mu_f)*(x - mu_f)
+    e_x = (x - mu_f) * (x - mu_f)
     e_delta = n * delta * delta
 
     e_f = e_i + e_x + e_delta
 
-    v_f = e_f / float(n+1)
+    v_f = e_f / float(n + 1)
 
     return v_f
 
@@ -200,11 +249,11 @@ def decremental_var(mu_i, n, v_i, x):
     delta = mu_f - mu_i
     e_i = v_i * n
 
-    e_x = (x - mu_i)*(x - mu_i)
+    e_x = (x - mu_i) * (x - mu_i)
     e_delta = (n - 1) * delta * delta
 
     e_f = e_i - e_x - e_delta
 
-    v_f = e_f / float(n-1)
+    v_f = e_f / float(n - 1)
 
     return v_f
