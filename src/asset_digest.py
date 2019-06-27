@@ -39,10 +39,9 @@ def main():
 
             # Write to cassandra
             pq = pd.data[asset]
-            AssetStat(asset=asset).timeout(1).update(
-                reward=pq.reward,
-                risk=pq.risk,
-                time_collected=pq.price_data[-1].timestamp)
+            t = time.time()
+            dt = t - pq.price_data[-1].timestamp
+            AssetStat(asset=asset).timeout(1).update(reward=pq.reward, risk=pq.risk, timestamp=t, latency=dt)
 
         # Print the time so user can tell the program is alive
         print(time.time())
