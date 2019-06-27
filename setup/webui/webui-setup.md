@@ -18,7 +18,14 @@
 	* Install Python3 pip: `sudo apt install python3-pip`
 	* Install Flask: `pip3 install Flask`
 	* Install Cassandra driver: `pip3 install cassandra-driver`
+	* Copy over the `web_ui.py` and dependencies: `peg scp to-rem webui 1 projects/insight-silverbullet/src/ silverbullet`
+		* Edit `silverbullet/conf/cassandra.json` so that it reflects the internal IP of Cassandra master.
 
-This node will run the Web UI, and can be opened to internet access, but it hsould be locked down with respect to the rest of the VPC. It only needs to fetch from the Cassandra (see remark above about security groups).
+This node will host the Web UI, and can be opened to internet access, but it hsould be locked down with respect to the rest of the VPC. It only needs to fetch from the Cassandra (see remark above about security groups).
 
-Don't forget to edit `cassandra.json` to reflect the Cassandra internal IP!
+## To start the Web UI:
+* Set Flask env.var: `export FLASK_APP=~/silverbullet/web_ui.py`
+* Go to the script dir: `cd silverbullet` (Flask is a bit finicky about working dirs)
+* You need to run with sudo to use port 80: `sudo python3 web_ui.py`
+	* Ordinarily, it's bad to run Flask on 80. You should let Flask run on something like 5000, and use a proxy server like nginx to redirect 80 to that port. I did not have time to set that up for this project.
+	* Web UI should now be accessible at the public IP of the node! To troubleshoot, you can `curl localhost` when SSH'd into the node.
