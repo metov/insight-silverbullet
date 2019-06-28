@@ -9,7 +9,7 @@ from cassandra.cqlengine.management import sync_table, drop_table
 from cassandra_models import AssetStat, PortfolioStat
 from cassandra_utilities import connect_to_cassandra, silverbullet_keyspace
 
-n_portfolios = 10
+n_portfolios = 1000
 
 
 def main():

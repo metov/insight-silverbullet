@@ -64,7 +64,7 @@ def clicks(n_clicks):
                                                               marker=dict(line=dict(width=0.5),
                                                                           color=color_assets))],
                                           'layout': go.Layout(title=go.layout.Title(text='Asset statistics'),
-                                                              xaxis={'title': 'Reward'}, yaxis={'title': 'Risk'})})
+                                                              xaxis={'title': 'Risk'}, yaxis={'title': 'Reward'})})
 
     # Portfolio stat graph
     graph_portfolio_stats = dcc.Graph(id='portfolio-risk-reward',

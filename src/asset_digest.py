@@ -30,12 +30,21 @@ def main():
     for msg in consumer:
         # Parse message
         s = msg.value
-        d = json.loads(s)
+        ticks = json.loads(s)
 
         # Process prices
-        for asset in d['prices']:
-            price = float(d['prices'][asset])
-            pd.push_price(asset, price, d['timestamp'])
+        for tick in ticks:
+            price = tick['price']
+            asset = tick['asset']
+            timestamp = tick['date']
+
+            # Check for division by zero errors caused by insufficient time resolution
+            if pd.will_divide_by_zero(asset, timestamp):
+                print('Two ticks happened in the same millisecond - {} - ignoring the later one.'.format(timestamp))
+                continue
+
+            # Process this tick and update reward/risk
+            pd.push_price(asset, price, timestamp)
 
             # Write to cassandra
             pq = pd.data[asset]

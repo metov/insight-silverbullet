@@ -2,5 +2,6 @@
   "kafka_topic": "price",
   "kafka_ip": "IP_ADDRESS_HERE",
   "data_dir": "test-tiny",
+  "data_file": "combined_rt.txt",
   "window_size": 60
 }

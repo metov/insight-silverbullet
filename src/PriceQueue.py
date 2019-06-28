@@ -30,6 +30,15 @@ class PriceData:
         else:
             self.data[asset].process_tick(price, timestamp)
 
+    def will_divide_by_zero(self, asset, timestamp):
+        """
+        Checks whether pushing this timestamp will cause a divide-by-zero error.
+        """
+        if asset not in self.data:
+            return False
+
+        return self.data[asset].will_divide_by_zero(timestamp)
+
     def print_summary_table(self):
         """
         Debug method, prints a summary table of data to console.
@@ -98,6 +107,16 @@ class PriceQueue:
 
         # Update price list
         self.price_data.append(incoming)
+
+    def will_divide_by_zero(self, timestamp):
+        """
+        Checks whether pushing this timestamp will cause a divide-by-zero error.
+        """
+        if len(self.price_data) == 0:
+            return False
+
+        last_datum = self.price_data[-1]
+        return last_datum.will_divide_by_zero(timestamp)
 
     def pop_oldest_price(self):
         """
@@ -169,6 +188,16 @@ class PriceDatum:
         self.relative_change = dp
         self.time_interval = dt
         self.normalized_change = dp / dt
+
+    def will_divide_by_zero(self, timestamp):
+        """
+        Returns true if the given timestamp is larger, and false if it it was in the same instant. This method
+        is intended for easily checking for potential divide-by-zero errors caused by insufficient time resolution to
+        distinguish two ticks.
+        """
+
+        dt = self.timestamp - timestamp
+        return dt >= 0
 
     def __repr__(self):
         s = 'price={}, time_interval={}, normalized_change={}'
