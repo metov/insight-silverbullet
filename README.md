@@ -19,4 +19,15 @@ I will use state of the art, blazing fast stream processing framework Flink to t
 	* Cassandra is a distributed database. It will store computation results.
 
 ### Sending messages to Kafka
-In order to write to Kafka, you need a Kafka producer. There is a "console producer" that lets you manually push messages by typing to console. To write programmatically, you need to write a [Kafka producer program](kafka-producer/kafka-producer.md).
+`csv_producer.py` is a Kafka producer which will read from a CSV file and publish to Kafka, simulating an exchange API. For details on manually administering Kafka, see [kafka-manual](kafka-manual.md).
+
+#### Running the producer
+You will probably need to install the library on the node you're SSHing into: `pip install kafka`
+
+You can run the producer with `python csv_producer.py`. Stop with Ctrl+C. To see messages run:
+``` bash
+/usr/local/kafka/bin/kafka-console-consumer.sh \
+	--bootstrap-server localhost:9092 \
+	--topic price \
+	--from-beginning
+```
