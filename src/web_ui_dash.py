@@ -27,13 +27,13 @@ risk_reward_graphs = [(html.Div(children=None, id='risk-reward',
 
 app.layout = html.Div([
     (html.H1(children='SilverBullet dashboard', id='title')),
-    html.Button('Update', id='button'),
+    dcc.Interval(id='timer', interval=10000, n_intervals=0),
     (html.Div(children=None, id='plots'))])
 
 
 @app.callback(
     Output('plots', 'children'),
-    [Input('button', 'n_clicks')])
+    [Input('timer', 'n_intervals')])
 def clicks(n_clicks):
     """
     Method to update plots on every button click. While Dash supports more idiomatic live plots, unfortunately it
