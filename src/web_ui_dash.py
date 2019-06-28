@@ -91,14 +91,42 @@ def clicks(n_clicks):
                                                             marker=dict(line=dict(width=0.5),
                                                                         color=portfolio_color))],
                                         'layout': go.Layout(title=go.layout.Title(text='Latency'),
-                                                            yaxis={'title': 'Latency (ms)'},
+                                                            yaxis={'title': 'Latency (seconds)'},
                                                             hovermode='closest')})
+
+    # Latency log graph
+    asset_latencies = AssetLatencyLog.all()
+    al_mean = [al.latency_mean for al in asset_latencies]
+    al_time = [al.time_evaluated for al in asset_latencies]
+
+    portfolio_latencies = PortfolioLatencyLog.all()
+    pl_mean = [pl.latency_mean for pl in portfolio_latencies]
+    pl_time = [pl.time_evaluated for pl in portfolio_latencies]
+
+    graph_latency_log = dcc.Graph(id='latency_log',
+                                  figure={'data': [go.Scatter(x=al_time,
+                                                              y=al_mean,
+                                                              name='Assets',
+                                                              mode='markers',
+                                                              marker=dict(line=dict(width=0.5),
+                                                                          color=color_assets)),
+                                                   go.Scatter(x=pl_time,
+                                                              y=pl_mean,
+                                                              name='Portfolios',
+                                                              mode='markers',
+                                                              marker=dict(line=dict(width=0.5),
+                                                                          color=portfolio_color))],
+                                          'layout': go.Layout(title=go.layout.Title(text='Latency over last hour'),
+                                                              xaxis={'title': 'Time recorded'},
+                                                              yaxis={'title': 'Latency (seconds)'},
+                                                              hovermode='closest')})
 
     # Output graphs
     graphs = [
         (html.Div(children=graph_asset_stats, style={'display': 'inline-block', 'width': '30%'})),
         (html.Div(children=graph_portfolio_stats, style={'display': 'inline-block', 'width': '30%'})),
-        (html.Div(children=graph_latencies, style={'display': 'inline-block', 'width': '30%'}))
+        (html.Div(children=graph_latencies, style={'display': 'inline-block', 'width': '30%'})),
+        (html.Div(children=graph_latency_log)),
     ]
 
     return graphs

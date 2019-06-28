@@ -22,3 +22,21 @@ class PortfolioStat(Model):
     latency = columns.Float()
     weights = columns.List(columns.Float())
     weight_labels = columns.List(columns.Text())
+
+
+class AssetLatencyLog(Model):
+    __options__ = {'default_time_to_live': 3600}
+    id = columns.UUID(primary_key=True)
+    time_evaluated = columns.BigInt()
+    latency_mean = columns.Float()
+    latency_min = columns.Float()
+    latency_max = columns.Float()
+
+
+class PortfolioLatencyLog(Model):
+    __options__ = {'default_time_to_live': 3600}
+    id = columns.UUID(primary_key=True)
+    time_evaluated = columns.BigInt()
+    latency_mean = columns.Float()
+    latency_min = columns.Float()
+    latency_max = columns.Float()
