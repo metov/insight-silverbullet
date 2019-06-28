@@ -29,7 +29,7 @@ def main():
     # Start looping
     while True:
         # Get entire list of assets as a Python list with static order
-        assets = [asset for asset in AssetStat.objects]
+        assets = [asset for asset in AssetStat.objects if asset.reward > 0]
         asset_names = [asset.asset for asset in assets]
 
         # Generate random weights using the Dirichlet distribution (sums to 1)
