@@ -3,21 +3,18 @@ from flask import Flask, jsonify, render_template
 from cassandra_models import *
 from cassandra_utilities import connect_to_cassandra, cassandra_configs
 
-app = Flask(__name__)
 
+# Setup flask app
+flask_app = Flask(__name__)
 
-@app.route('/')
+@flask_app.route('/')
 def show_splash():
-    s = 'SilverBullet<br/>' \
-        '<a href=/api/asset_stat>API: Asset stats</a><br/>' \
-        '<a href=/api/asset_stat>API: Asset stats</a><br/>'
-
     s = render_template('index.html')
 
     return s
 
 
-@app.route('/api/asset_stat')
+@flask_app.route('/api/asset_stat')
 def asset_stats():
     connect_to_cassandra()
 
@@ -28,7 +25,7 @@ def asset_stats():
     return jsonify(asset_stat)
 
 
-@app.route('/api/portfolio_stat')
+@flask_app.route('/api/portfolio_stat')
 def portfolio_stat():
     # Connect to Cassandra
     connection.setup(cassandra_configs['ips'], cassandra_configs['keyspace'])
@@ -41,4 +38,4 @@ def portfolio_stat():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port='80', debug=True)
+    flask_app.run(host='0.0.0.0', port='80', debug=True)
