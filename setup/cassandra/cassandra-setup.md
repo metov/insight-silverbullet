@@ -24,10 +24,13 @@
 * Finally Cassandra: `peg install cassandra-cluster cassandra`
 * Now start Cassandra: `peg service cassandra-cluster cassandra start`  (if console gets stuck, Ctrl+C is safe)
 
-This will create one node running Cassandra as a master, and two worker nodes. You can get a description with `peg describe cassandra-cluster`.
+This will create one node running Cassandra 3.11.2 as a master, and two worker nodes. You can get a description with `peg describe cassandra-cluster`.
 
 ## Manual administration
 You can use `cqlsh` on the node to administer.
+
+### Version
+To check Cassandra version, `cqlsh` and then `show version`.
 
 ## Stopping when not in use
 When you're not using the cluster, you can stop it temporarily to avoid being billed.
