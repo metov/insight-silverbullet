@@ -86,8 +86,6 @@ def main():
                                    latency_max=latency_max)
 
         # Print some output so the user can tell the program is alive
-        print(t)
-
         print('{}\t{}\t{}\t{}'.format(t, latency_min, latency_max, latency_mean))
 
         # Wait 1 second to avoid overloading the DB
