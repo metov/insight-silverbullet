@@ -47,11 +47,6 @@ def clicks(n_clicks):
     a_risk = [a.risk for a in assets]
     a_latency = [a.latency for a in assets]
 
-    portfolios = PortfolioStat.all()
-    p_reward = [p.reward for p in portfolios]
-    p_risk = [p.risk for p in portfolios]
-    p_latency = [abs(p.latency) for p in portfolios]
-
     # Set colors of either value in one place
     color_assets = 'DarkOrange'
     portfolio_color = 'DodgerBlue'
@@ -64,16 +59,29 @@ def clicks(n_clicks):
                                                               marker=dict(line=dict(width=0.5),
                                                                           color=color_assets))],
                                           'layout': go.Layout(title=go.layout.Title(text='Asset statistics'),
-                                                              xaxis={'title': 'Risk'}, yaxis={'title': 'Reward'})})
+                                                              xaxis={'title': 'Risk (variance)'},
+                                                              yaxis={'title': 'Reward (mean change)'})})
 
     # Portfolio stat graph
+    portfolios = PortfolioStat.all()
+    p_reward = [p.reward for p in portfolios]
+    p_risk = [p.risk for p in portfolios]
+    p_latency = [abs(p.latency) for p in portfolios]
+
+    # Find efficient frontier
+    p_sharpe = [p.reward / np.sqrt(p.risk) for p in portfolios]
+    thrs = np.quantile(p_sharpe, 0.95)
+    efficient = list(map(lambda s: 1 if s > thrs else 0, p_sharpe))
+
     graph_portfolio_stats = dcc.Graph(id='portfolio-risk-reward',
                                       figure={'data': [go.Scatter(x=p_risk,
-                                                                  y=p_reward, mode='markers',
-                                                                  marker=dict(line=dict(width=0.5),
-                                                                              color=portfolio_color))],
+                                                                  y=p_reward,
+                                                                  mode='markers',
+                                                                  marker={'line': dict(width=0.5),
+                                                                          'color': efficient})],
                                               'layout': go.Layout(title=go.layout.Title(text='Portfolio statistics'),
-                                                                  xaxis={'title': 'Risk'}, yaxis={'title': 'Reward'},
+                                                                  xaxis={'title': 'Risk (variance)'},
+                                                                  yaxis={'title': 'Reward (mean change)'},
                                                                   hovermode='closest')})
 
     # Portfolio stat graph
@@ -123,10 +131,10 @@ def clicks(n_clicks):
 
     # Output graphs
     graphs = [
-        (html.Div(children=graph_asset_stats, style={'display': 'inline-block', 'width': '30%'})),
-        (html.Div(children=graph_portfolio_stats, style={'display': 'inline-block', 'width': '30%'})),
-        (html.Div(children=graph_latencies, style={'display': 'inline-block', 'width': '30%'})),
-        (html.Div(children=graph_latency_log)),
+        (html.Div(children=graph_portfolio_stats, style={'display': 'inline-block', 'width': '40%'})),
+        (html.Div(children=graph_latency_log, style={'display': 'inline-block', 'width': '58%'})),
+        (html.Div(children=graph_asset_stats, style={'display': 'inline-block', 'width': '40%'})),
+        (html.Div(children=graph_latencies, style={'display': 'inline-block', 'width': '40%'})),
     ]
 
     return graphs
