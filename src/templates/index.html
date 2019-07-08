@@ -2,16 +2,40 @@
 <html lang="en">
 <head>
     <title>SilverBullet</title>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
-<body>
-	<p><em>SilverBullet</em> is a live, distributed analysis platform for high-frequency trading applications. For details, see the <a href="https://github.com/metov/insight-silverbullet">Github repo</a>.</p>
+<body class="w3-pale-green">
 
-	<p><a href="bespokeanalytics.xyz:8080">Dashboard</a></p>
 
-	<h4>API endpoints:</h4>
-    <ul id="api_endpoints">
-        <li><a href="/api/asset_stat">Individual asset statistics</a></li>
-        <li><a href="/api/portfolio_stat">Individual portfolio statistics</a></li>
-    </ul>
+	<div class="w3-container" style="width:100%; max-width:800px; margin: auto; text-align: justify;">
+		<div class="w3-container w3-teal" style="text-align: center;">
+			<h1><strong>SilverBullet</strong></h1>
+		</div>
+		<div class="w3-container w3-white">
+			<p><em>SilverBullet</em> is a live, distributed analysis platform for high-frequency trading applications. For details about the project and source code, see the <a href="https://github.com/metov/insight-silverbullet">Github repo</a>.</p>
+			
+			<p>The current version provides live optimization of a cryptocurrency portfolio according to Modern Portfolio Theory, using a Monte Carlo strategy.</p>
+			
+			<h2>Dashboard</h2>
+			<p><a href="bespokeanalytics.xyz:8080">Dashboard</a> - provides a visualization of optimal portfolios, latency and some additional statistics.</p>
+						
+			<h2>API Endpoints</h2>
+			Latest optimal portfolios, and other computation results, are also available through the REST API:
+			
+			<ul id="api_endpoints">
+				<li><a href="/api/asset_stat">Individual asset statistics</a></li>
+				<li><a href="/api/portfolio_stat">Individual portfolio statistics</a></li>
+			</ul>
+			
+			<h2>About</h2>			
+			<p><em>SilverBullet</em> was made by me, Azat Akhmetov, for the Insight Data Engineering program, <code>2019B.DE.SV</code> (summer 2019, Silicon Valley session). </p>
+			
+			<ul>
+				<li>My LinkedIn: <a href="https://www.linkedin.com/in/azat-akhmetov">linkedin.com/in/azat-akhmetov</a></li>
+				<li>My GitHub: <a href="https://github.com/metov">github.com/metov</a></li>
+				<li>My email: azatinfo (AT) yandex (DOT) com
+			</ul>
+		</div> 
+	</div>
 </body>
 </html>
