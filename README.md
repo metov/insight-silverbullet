@@ -4,30 +4,22 @@ Take your best shot at crypto markets!
 SilverBullet live optimization of cryptocurrency portfolio with very low latency, suited to high-frequency trading applications.
 
 ## Problem statement
-Split second decisions can mean the difference between profit and ruin in modern markets. To fully exploit the economic potential of the market, a trading system must be able to evaluate market conditions with extremely high latency. If this takes too long, by the time trading decisions are made, the situation will have changed. I want to create an architecture that enables such low latency, live analysis of financial price data.
+Split second decisions can mean the difference between profit and ruin in modern markets. To fully exploit the economic potential of the market, a trading system must be able to evaluate market conditions with extremely high latency. If it takes too long to reach a decision, the situation will have changed and even a great decision will lose its value. I wanted to create an architecture that enables such low latency for live analysis of financial price data.
 
 ## General solution
-I will use state of the art, blazing fast stream processing framework Flink to take in a live ticker data from an exchange, and distribute financial computation to a computing cluster. The system will be designed for minimal latency; as a second concern, I will construct a scalable computing cluster that can handle heavy computations. As a demonstration, I will implement a Monte Carlo approach to finding most efficient portfolios according to modern portfolio theory. The results will be shown live in a Web UI, as well as served through an API for high frequency trading software.
+Live tick data is read from a financial data provider (currently simulated with a Kafka producer) and ingested with Kafka. A Kafka consumer calculates per-asset summary statistics over a moving time window. Heavy computations, such as the Monte Carlo optimizer, run on Spark and can be readily scaled. Computation results are stored in Cassandra, and provided to the user with Dash (visualizations) and Flask (REST API).
+
+![](stack.png)
 
 ## Setup
-
 * Set up Kafka as described in [kafka-setup](setup/kafka/kafka-setup.md)
 	* Kafka is a distributed, fault tolerant message queue. Kafka will ingest the price data into a message queue and make it available to other programs.
 * Set up Spark as described in [spark-setup](setup/spark/spark-setup.md)
 	* Apache Spark is a distributed processing framework. Spark will do the distributed computations.
+	* Ensure that `exchange_simulator.py`, `asset_digest.py` and `portfolio_evaluate_spark.py` exist on the Spark master along with their dependencies (`exchange_simulator.py` requires the tick data to be present as well). Fill in the correct IPs and other details in .conf files. Run `exchange_simulator.py` and `asset_digest.py` directly, and `portfolio_evaluate_spark.py` with `spark-submit`.
 * Set up Cassandra as described in [cassandra-setup](setup/cassandra/cassandra-setup.md)
 	* Cassandra is a distributed database. It will store computation results.
+* Set up a Web UI node as described in [webui-setup](setup/webui/webui-setup.md)
 
-### Sending messages to Kafka
-`csv_producer.py` is a Kafka producer which will read from a CSV file and publish to Kafka, simulating an exchange API. For details on manually administering Kafka, see [kafka-manual](kafka-manual.md).
+The Web UI should now be available on the Web UI node.
 
-#### Running the producer
-You will probably need to install the library on the node you're SSHing into: `pip install kafka`
-
-You can run the producer with `python csv_producer.py`. Stop with Ctrl+C. To see messages run:
-``` bash
-/usr/local/kafka/bin/kafka-console-consumer.sh \
-	--bootstrap-server localhost:9092 \
-	--topic price \
-	--from-beginning
-```
