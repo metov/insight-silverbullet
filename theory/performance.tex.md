@@ -12,19 +12,10 @@ Asset price movements are assumed to be represented by a biased random walk with
 
 * Asset reward $g = \mu / \theta$, representing the average expected % increase in price after 1 second.
 * Asset risk $r = \sigma / \sqrt{\theta}$, representing the average expected % spread of price after 1 second.
-* Asset z-score $z = \frac{\mu / \theta}{\sigma / \sqrt(\theta)}$ representing normalized average expected change in price after 1 second.
 
 ### Asset summary
 
-For a list $u$ containing $n$ prices, calculating the reward has complexity $O(n)$ - every element must be added up. However, if the initial mean $\mu_i$ of $u$  is known, pushing a new element $x$ does not necessitate redoing the entire calculation. We can calculate the new mean $\mu_f$ in $O(1)$ time:
-
-$\mu_f = \frac{n \cdot \mu_i + x}{n+1}$
-
-If $\mu_i$, $\mu_f$ and previous standard deviation $\sigma_i$ are known, we can also utilize a [fast algorithm](https://math.stackexchange.com/a/1362467) to obtain the new standard deviation:
-
-$v_f = \frac{(x-\mu_f)^2}{n+1} + \frac{n\cdot v_i}{n+1} + \frac{n}{n+1}\delta^2 $ where $ v = \sigma ^2$ and $\delta=\mu_f-\mu_i$
-
-Although the equation appears daunting, the running time is constant with respect to $n$.
+For a list $u$ containing $n$ prices, calculating the reward has complexity $O(n)$ - every element must be added up. However, if the initial mean $\mu_i$ of $u$  is known, pushing a new element $x$ does not necessitate redoing the entire calculation. We can calculate the new mean $\mu_f$ in [$O(1)$ time](algorithms.md).
 
 For an entire universe of assets, we will make these calculations $a \cdot t$ times per second, and make $a \cdot t$ writes to Redis. During portfolio evaluation phase, every portfolio will need the entire table of asset summaries, generating $p \cdot t$ reads per second.
 
@@ -48,7 +39,7 @@ If we take a reasonable estime of:
 
 * $p = 1000$ portfolios
 
-Will result in the following load per second:
+Will result in approximately the following load per second:
 
 - Stock summary table:
   - 100 constant time calculations
@@ -71,7 +62,7 @@ If we take a reasonable estime of:
 
 - $p = 10k$ portfolios
 
-Will result in the following load per second:
+Will result in approximately the following load per second:
 
 - Stock summary table:
   - 4k constant time calculations
@@ -83,5 +74,3 @@ Will result in the following load per second:
   - 10k reads
 - Portfolio summary table:
   - 10k writes
-
-
